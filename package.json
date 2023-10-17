@@ -1,0 +1,22 @@
+{
+	"name": "com.zumstudios.zumpass",
+	"version": "0.0.1",
+	"displayName": "ZUMPass-Unity",
+	"description": "Biblioteca de integração do ZUMPass para aplicativo desenvolvidos na Unity Engine.",
+	"unity": "2020.3",
+	"documentationUrl": "https://wiki.zeroum.com.br",
+  	"changelogUrl": "https://wiki.zeroum.com.br",
+	"dependencies": {
+	    "com.unity.nuget.newtonsoft-json": "3.0.2"
+	},
+	"author": {
+		"name": "Marcos Hsie",
+		"email": "marcos@zeroum.com.br",
+		"url": "https://br.linkedin.com/in/marcoshsie"
+	},
+	"repository": {
+		"type": "git",
+		"url": "",
+		"revision": ""
+	}
+}
