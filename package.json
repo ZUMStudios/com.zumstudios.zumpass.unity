@@ -9,7 +9,7 @@
 	"dependencies": {
 		"com.unity.textmeshpro": "3.0.6",
 	    "com.unity.nuget.newtonsoft-json": "3.0.2",
-	    "com.dentedpixel.leantween": "2.51.0"
+	    "com.dentedpixel.leantween": "ssh://git@bitbucket.org/01digital/balboa-leantween-unity.git"
 	},
 	"author": {
 		"name": "Marcos Hsie",
