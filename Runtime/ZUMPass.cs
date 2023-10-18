@@ -10,12 +10,11 @@ using UnityEngine.Networking;
 
 namespace com.zumstudios.zumpass
 {
-    public class ZUMPassManager : MonoBehaviour
+    public class ZUMPass : MonoBehaviour
     {
         private string _application_key;
         private bool _initialized;
         private ZUMPassUser _user;
-
 
         public void Init(string application_key, Action onInitialized = null)
         {
@@ -164,9 +163,17 @@ namespace com.zumstudios.zumpass
             if (request.result == UnityWebRequest.Result.Success)
             {
                 var response = JsonConvert.DeserializeObject<ZUMPassLoginResponse>(request.downloadHandler.text);
-                var passUser = new ZUMPassUser(email, password, response.token);
-                passUser.Save();
-                onSuccess?.Invoke(passUser);
+
+                if (response.success)
+                {
+                    var passUser = new ZUMPassUser(email, password, response.token);
+                    passUser.Save();
+                    onSuccess?.Invoke(passUser);
+                }
+                else
+                {
+                    onFail?.Invoke(response.msg);
+                }
             }
             else if (request.result == UnityWebRequest.Result.InProgress) { }
             else
@@ -199,8 +206,16 @@ namespace com.zumstudios.zumpass
             if (request.result == UnityWebRequest.Result.Success)
             {
                 var response = JsonConvert.DeserializeObject<ZUMPassProductResponse>(request.downloadHandler.text);
-                response.Save();
-                onSuccess?.Invoke(response.products);
+
+                if (response.success)
+                {
+                    response.Save();
+                    onSuccess?.Invoke(response.products);
+                }
+                else
+                {
+                    onFail?.Invoke(response.msg);
+                }
             }
             else if (request.result == UnityWebRequest.Result.InProgress) { }
             else
@@ -218,8 +233,8 @@ namespace com.zumstudios.zumpass
         }
 
         private static readonly object padlock = new object();
-        private static ZUMPassManager _instance;
-        public static ZUMPassManager Instance
+        private static ZUMPass _instance;
+        public static ZUMPass Instance
         {
             get
             {
@@ -228,8 +243,8 @@ namespace com.zumstudios.zumpass
                     if (_instance == null)
                     {
                         var go = new GameObject();
-                        go.name = "@ZUMPassManager";
-                        _instance = go.AddComponent<ZUMPassManager>();
+                        go.name = "@ZUMPass";
+                        _instance = go.AddComponent<ZUMPass>();
                         DontDestroyOnLoad(go);
                     }
 

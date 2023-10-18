@@ -49,7 +49,15 @@ namespace com.zumstudios.zumpass
             return epochStart.AddMilliseconds(timestampMilliseconds);
         }
 
-        public static string GetPersistentDataPath(string fileName) => Application.persistentDataPath + "/ZUMPass/" + fileName;
+        public static string GetPersistentDataPath(string fileName)
+        {
+            if (fileName == null)
+            {
+                return Path.Combine(Application.persistentDataPath, "ZUMPass");
+            }
+
+            return Path.Combine(Application.persistentDataPath, "ZUMPass", fileName);
+        }
     }
 }
 
