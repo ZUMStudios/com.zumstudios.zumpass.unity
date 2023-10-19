@@ -1,6 +1,6 @@
 {
 	"name": "com.zumstudios.zumpass",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"displayName": "ZUMPass-Unity",
 	"description": "Biblioteca de integração do ZUMPass para aplicativo desenvolvidos na Unity Engine.",
 	"unity": "2020.3",
@@ -8,8 +8,7 @@
   	"changelogUrl": "https://wiki.zeroum.com.br",
 	"dependencies": {
 		"com.unity.textmeshpro": "3.0.6",
-	    "com.unity.nuget.newtonsoft-json": "3.0.2",
-	    "com.dentedpixel.leantween": "ssh://git@bitbucket.org/01digital/balboa-leantween-unity.git"
+	    "com.unity.nuget.newtonsoft-json": "3.0.2"
 	},
 	"author": {
 		"name": "Marcos Hsie",

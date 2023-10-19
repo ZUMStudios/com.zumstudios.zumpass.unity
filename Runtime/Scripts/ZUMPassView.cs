@@ -7,22 +7,27 @@ namespace com.zumstudios.zumpass
 {
     public class ZUMPassView : MonoBehaviour, IZUMPassLogin, IZUMPassProductLoad
     {
+        #region Variables
+
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private CanvasGroup _backgroundCG;
-        [SerializeField] private GameObject _contentGO;
         [SerializeField] private LoadingSpinner _loadingSpinner;
 
         [SerializeField] private GameObject _loginGO;
         [SerializeField] private TMP_InputField _usernameField;
         [SerializeField] private TMP_InputField _passwordField;
 
-
         [SerializeField] private GameObject _loggedGO;
         [SerializeField] private Transform _scrollContentTransform;
         [SerializeField] private TextMeshProUGUI _headerTMP;
         [SerializeField] private TextMeshProUGUI _noOffersTMP;
 
+        [SerializeField] private Animator _animator;
+
         private Action<string> _onError;
+
+        #endregion
+
+        #region Static methods
 
         public static void Show(Action<string> onError, int layerOrder = 32767)
         {
@@ -30,17 +35,17 @@ namespace com.zumstudios.zumpass
 
             script._onError = onError;
             script.SetupInterface(layerOrder);
-            script.AnimateShow();
+            script.SetupInterface(layerOrder);
+            script._animator.SetBool("Show", true);
         }
+
+        #endregion
+
+        #region Private methods
 
         private void SetupInterface(int layerOrder)
         {
             _canvas.sortingOrder = layerOrder;
-
-            _backgroundCG.alpha = 0f;
-            _backgroundCG.interactable = false;
-
-            _contentGO.transform.localScale = Vector3.zero;
 
             if (ZUMPass.Instance.IsLoggedIn())
             {
@@ -76,26 +81,19 @@ namespace com.zumstudios.zumpass
             onComplete?.Invoke();
         }
 
-        private void AnimateShow()
-        {
-            LeanTween.alphaCanvas(_backgroundCG, 1f, 0.2f).setOnComplete(() =>
-            {
-                _backgroundCG.interactable = true;
-            });
+        #endregion
 
-            LeanTween.scale(_contentGO, Vector3.one, 0.2f).setDelay(0.1f);
+        #region Animator Event
+
+        // Animator Event method
+        public void OnHideAnimationEnd()
+        {
+            Destroy(gameObject);
         }
 
-        private void AnimateHide()
-        {
-            _backgroundCG.interactable = false;
+        #endregion
 
-            LeanTween.scale(_contentGO, Vector3.zero, 0.2f);
-            LeanTween.alphaCanvas(_backgroundCG, 0f, 0.2f).setDelay(0.1f).setOnComplete(() =>
-            {
-                Destroy(gameObject);
-            });
-        }
+        #region Button pressed methods
 
         public void OnLoginButtonPressed()
         {
@@ -118,6 +116,13 @@ namespace com.zumstudios.zumpass
             ZUMPass.Instance.LoadProducts(OnProductLoadSuccess, OnProductLoadFail);
         }
 
+        public void OnHideButtonPressed()
+        {
+            _animator.SetBool("Show", false);
+        }
+
+        #endregion
+
         #region IZUMPassLogin
         public void OnLoginSuccess(ZUMPassUser user)
         {
@@ -127,6 +132,7 @@ namespace com.zumstudios.zumpass
         public void OnLoginFail(string message)
         {
             _loadingSpinner.gameObject.SetActive(false);
+            _animator.SetBool("Show", false);
             _onError?.Invoke(message);
         }
 
@@ -144,6 +150,7 @@ namespace com.zumstudios.zumpass
         public void OnProductLoadFail(string message)
         {
             _loadingSpinner.gameObject.SetActive(false);
+            _animator.SetBool("Show", false);
             _onError?.Invoke(message);
         }
         #endregion
