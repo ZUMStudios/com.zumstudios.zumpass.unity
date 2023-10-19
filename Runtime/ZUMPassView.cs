@@ -115,8 +115,7 @@ namespace com.zumstudios.zumpass
         {
             ZUMPass.Instance.LogOut(() =>
             {
-                _loginGO.SetActive(true);
-                _loggedGO.SetActive(false);
+                _animator.SetBool("Show", false);
                 _onLogout?.Invoke();
             });
         }
