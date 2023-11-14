@@ -196,11 +196,6 @@ namespace com.zumstudios.zumpass
             var requestURL = $"{ZUMPassConstants.PRODUCTS_ENDPOINT}?token={user.token}&application_key={_application_key}";
 
             UnityWebRequest request = UnityWebRequest.Get(requestURL);
-            var passData = new ZUMPassData(user.token, _application_key);
-            var bodyRaw = Encoding.UTF8.GetBytes(passData.ToJSON());
-
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
 
             yield return request.SendWebRequest();
 
