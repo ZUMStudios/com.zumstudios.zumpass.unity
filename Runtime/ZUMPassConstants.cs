@@ -7,5 +7,9 @@ namespace com.zumstudios.zumpass {
 
         public const string ZUMPASS_USER_FILENAME = "zumpass_user.bin";
         public const string ZUMPASS_PRODUCTS_FILENAME = "zumpass_products.bin";
+
+        public const string ZUMPASS_URL = "https://www.zumpass.com.br";
+        public const string ZUMPASS_DESCRIPTION_URL = "https://www.zumpass.com.br/oqueeozumpass/";
+        public const string ZUMPASS_RESET_PASSWORD_URL = "https://www.zumpass.com.br/reset_password/";
     }
 }
