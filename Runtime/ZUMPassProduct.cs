@@ -14,7 +14,7 @@ namespace com.zumstudios.zumpass
 
         public bool HasExpired()
         {
-            if (GetExpireDate() > DateTime.UtcNow)
+            if (GetExpireDate() < DateTime.UtcNow)
                 return true;
 
             return false;
