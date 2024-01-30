@@ -144,7 +144,7 @@ namespace com.zumstudios.zumpass
                     return false;
                 }
 
-                return obj.HasExpired();
+                return obj.HasExpired() == false;
             }
 
             throw new Exception("ZUMPassManager não foi inicializado!");
