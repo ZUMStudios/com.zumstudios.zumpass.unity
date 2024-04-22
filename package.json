@@ -1,6 +1,6 @@
 {
 	"name": "com.zumstudios.zumpass",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"displayName": "ZUMPass-Unity",
 	"description": "Biblioteca de integração do ZUMPass para aplicativo desenvolvidos na Unity Engine.",
 	"unity": "2020.3",

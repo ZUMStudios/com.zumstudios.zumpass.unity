@@ -6,11 +6,13 @@ namespace com.zumstudios.zumpass
     public class ZUMPassProduct
     {
         public string title;
+        public string provider;
+        public string bundle;
         public string code;
         public string product_id;
         public long expire_timestamp;
 
-        public ZUMPassProduct() {  }
+        public ZUMPassProduct() { }
 
         public bool HasExpired()
         {
@@ -29,4 +31,3 @@ namespace com.zumstudios.zumpass
         }
     }
 }
-

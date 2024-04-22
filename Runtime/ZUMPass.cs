@@ -45,7 +45,12 @@ namespace com.zumstudios.zumpass
             throw new Exception("ZUMPassManager não foi inicializado!");
         }
 
-        public void Login(string email, string password, Action<ZUMPassUser> onSuccess, Action<string> onFail)
+        public void Login(
+            string email,
+            string password,
+            Action<ZUMPassUser> onSuccess,
+            Action<string> onFail
+        )
         {
             if (_initialized)
             {
@@ -122,7 +127,9 @@ namespace com.zumstudios.zumpass
                 try
                 {
                     var products = GetAvailableProducts();
-                    return products.FirstOrDefault(product => string.Equals(product.product_id, product_id));
+                    return products.FirstOrDefault(
+                        product => string.Equals(product.product_id, product_id)
+                    );
                 }
                 catch (Exception)
                 {
@@ -150,7 +157,12 @@ namespace com.zumstudios.zumpass
             throw new Exception("ZUMPassManager não foi inicializado!");
         }
 
-        private IEnumerator LoginCoroutine(string email, string password, Action<ZUMPassUser> onSuccess, Action<string> onFail)
+        private IEnumerator LoginCoroutine(
+            string email,
+            string password,
+            Action<ZUMPassUser> onSuccess,
+            Action<string> onFail
+        )
         {
             UnityWebRequest request = UnityWebRequest.Post(ZUMPassConstants.LOGIN_ENDPOINT, "POST");
             var login = new ZUMPassLogin(email, password);
@@ -163,7 +175,9 @@ namespace com.zumstudios.zumpass
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                var response = JsonConvert.DeserializeObject<ZUMPassLoginResponse>(request.downloadHandler.text);
+                var response = JsonConvert.DeserializeObject<ZUMPassLoginResponse>(
+                    request.downloadHandler.text
+                );
 
                 if (response.success)
                 {
@@ -181,7 +195,9 @@ namespace com.zumstudios.zumpass
             {
                 try
                 {
-                    var response = JsonConvert.DeserializeObject<ZUMPassLoginResponse>(request.downloadHandler.text);
+                    var response = JsonConvert.DeserializeObject<ZUMPassLoginResponse>(
+                        request.downloadHandler.text
+                    );
                     onFail?.Invoke(response.msg);
                 }
                 catch (Exception)
@@ -191,17 +207,33 @@ namespace com.zumstudios.zumpass
             }
         }
 
-        private IEnumerator LoadProductsCoroutine(ZUMPassUser user, Action<List<ZUMPassProduct>> onSuccess, Action<string> onFail)
+        private IEnumerator LoadProductsCoroutine(
+            ZUMPassUser user,
+            Action<List<ZUMPassProduct>> onSuccess,
+            Action<string> onFail
+        )
         {
-            var requestURL = $"{ZUMPassConstants.PRODUCTS_ENDPOINT}?token={user.token}&application_key={_application_key}";
+            UnityWebRequest request = UnityWebRequest.Post(
+                ZUMPassConstants.PRODUCTS_ENDPOINT,
+                "POST"
+            );
 
-            UnityWebRequest request = UnityWebRequest.Get(requestURL);
+            var body = new Dictionary<string, string>();
+            body.Add("application_key", _application_key);
+            body.Add("token", user.token);
+
+            var bodyRaw = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(body));
+
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
 
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                var response = JsonConvert.DeserializeObject<ZUMPassProductResponse>(request.downloadHandler.text);
+                var response = JsonConvert.DeserializeObject<ZUMPassProductResponse>(
+                    request.downloadHandler.text
+                );
 
                 if (response.success)
                 {
@@ -218,7 +250,9 @@ namespace com.zumstudios.zumpass
             {
                 try
                 {
-                    var response = JsonConvert.DeserializeObject<ZUMPassProductResponse>(request.downloadHandler.text);
+                    var response = JsonConvert.DeserializeObject<ZUMPassProductResponse>(
+                        request.downloadHandler.text
+                    );
                     onFail?.Invoke(response.msg);
                 }
                 catch (Exception)
@@ -250,4 +284,3 @@ namespace com.zumstudios.zumpass
         }
     }
 }
-

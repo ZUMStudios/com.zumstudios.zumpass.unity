@@ -9,7 +9,7 @@ namespace com.zumstudios.zumpass
         public string email;
         public string password;
 
-        public ZUMPassLogin() {  }
+        public ZUMPassLogin() { }
 
         public ZUMPassLogin(string email, string password)
         {
@@ -23,4 +23,3 @@ namespace com.zumstudios.zumpass
         }
     }
 }
-
